@@ -1,4 +1,4 @@
-# [Versions](https://mui.com/versions/)
+# [Versions](https://mui.com/versions/).
 
 ## 5.14.9
 
