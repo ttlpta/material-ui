@@ -8,7 +8,7 @@ const CustomInput = React.forwardRef(function CustomInput(
 ) {
   return (
     <Input
-      slots={{ input: StyledInputElement, textarea: StyledTextareaElement }}
+      slots={{ root: StyledRootDiv, input: StyledInputElement, textarea: StyledTextareaElement }}
       {...props}
       ref={ref}
     />
@@ -71,6 +71,11 @@ const StyledInputElement = styled('input')(
   }
 `,
 );
+
+const StyledRootDiv = styled('div')`
+  display: flex;
+  overflow: hidden;
+`
 
 const StyledTextareaElement = styled('textarea', {
   shouldForwardProp: (prop) =>
