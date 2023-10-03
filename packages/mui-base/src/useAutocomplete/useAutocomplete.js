@@ -304,17 +304,22 @@ export function useAutocomplete(props) {
       if (
         (direction === 'next' && nextFocus === filteredOptions.length) ||
         (direction === 'previous' && nextFocus === -1)
-      ) {
+        ) {
+        console.log({nextFocus, filteredOptions})
+        console.log('should not be here')
         return -1;
       }
 
       const option = listboxRef.current.querySelector(`[data-option-index="${nextFocus}"]`);
 
+      console.log(nextFocus, option)
       // Same logic as MenuList.js
       const nextFocusDisabled = disabledItemsFocusable
         ? false
         : !option || option.disabled || option.getAttribute('aria-disabled') === 'true';
 
+
+      console.log(nextFocus, nextFocusDisabled)
       if ((option && !option.hasAttribute('tabindex')) || nextFocusDisabled) {
         // Move to the next element.
         nextFocus += direction === 'next' ? 1 : -1;
@@ -451,7 +456,9 @@ export function useAutocomplete(props) {
         return newIndex;
       };
 
+      console.log({nextIndex: getNextIndex()})
       const nextIndex = validOptionIndex(getNextIndex(), direction);
+      console.log({nextIndex})
       setHighlightedIndex({ index: nextIndex, reason, event });
 
       // Sync the content of the input with the highlighted option.
