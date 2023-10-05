@@ -111,17 +111,6 @@ function useSelect<OptionValue, Multiple extends boolean = false>(
   const listboxRef = React.useRef<HTMLElement>(null);
   const listboxId = useId(listboxIdProp);
 
-  let defaultValue: OptionValue[] | undefined;
-  if (valueProp === undefined && defaultValueProp === undefined) {
-    defaultValue = [];
-  } else if (defaultValueProp !== undefined) {
-    if (multiple) {
-      defaultValue = defaultValueProp as OptionValue[];
-    } else {
-      defaultValue = defaultValueProp == null ? [] : [defaultValueProp as OptionValue];
-    }
-  }
-
   const value = React.useMemo(() => {
     if (valueProp !== undefined) {
       if (multiple) {
@@ -157,6 +146,23 @@ function useSelect<OptionValue, Multiple extends boolean = false>(
 
     return subitems;
   }, [optionsParam, subitems, listboxId]);
+
+  const defaultValue = React.useMemo(() => {
+    let defaultValue: OptionValue[] | undefined;
+    if (valueProp === undefined && defaultValueProp === undefined) {
+      defaultValue = [];
+    } else if (defaultValueProp !== undefined) {
+      if (multiple) {
+        if(Array.isArray(defaultValueProp)) {
+          defaultValue = defaultValueProp.filter((val) => options.has(val as OptionValue))
+        }
+      } else {
+        defaultValue = defaultValueProp == null || !options.has(defaultValueProp as OptionValue) ? [] : [defaultValueProp as OptionValue];
+      }
+    }
+
+    return defaultValue
+  }, [valueProp, defaultValueProp, multiple, options]);
 
   const handleListboxRef = useForkRef(listboxRefProp, listboxRef);
 
